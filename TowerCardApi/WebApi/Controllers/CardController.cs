@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using TowerCardApi.Core.Entities;
 using TowerCardApi.Core.Interfaces;
@@ -12,11 +13,13 @@ public class CardController : ControllerBase
 {
     private readonly ICardService _cardService;
     private readonly IMapper _mapper;
+    private readonly IValidator<CardInformation> _validator;
 
-    public CardController(ICardService cardService, IMapper mapper)
+    public CardController(ICardService cardService, IMapper mapper, IValidator<CardInformation> validator)
     {
         _cardService = cardService;
         _mapper = mapper;
+        _validator = validator;        
     }
 
     /// <summary>
@@ -46,10 +49,15 @@ public class CardController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
-    public IActionResult SaveCard([FromBody] CardInformation request)
+    public async Task<IActionResult> SaveCard([FromBody] CardInformation request)
     {
-        var cardObject = _mapper.Map<CardEntity>(request);
-        var cardId = _cardService.Create(cardObject);
-        return CreatedAtAction(nameof(GetCard), new { id = cardId }, request);
+        var result = await _validator.ValidateAsync(request);
+        if (result.IsValid)
+        {
+            var cardObject = _mapper.Map<CardEntity>(request);
+            var cardId = _cardService.Create(cardObject);
+            return CreatedAtAction(nameof(GetCard), new { id = cardId }, request);
+        }
+        return BadRequest(result);
     }
 }
