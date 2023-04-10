@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using TowerCardApi.Core.Entities;
 using TowerCardApi.Core.Interfaces;
 using TowerCardApi.Core.Models;
 
@@ -9,10 +11,12 @@ namespace WebApi.Controllers;
 public class CardController : ControllerBase
 {
     private readonly ICardService _cardService;
+    private readonly IMapper _mapper;
 
-    public CardController(ICardService cardService)
+    public CardController(ICardService cardService, IMapper mapper)
     {
         _cardService = cardService;
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -42,7 +46,10 @@ public class CardController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
-    public void SaveCard([FromBody] CardInformation request)
+    public IActionResult SaveCard([FromBody] CardInformation request)
     {
+        var cardObject = _mapper.Map<CardEntity>(request);
+        var cardId = _cardService.Create(cardObject);
+        return CreatedAtAction(nameof(GetCard), new { id = cardId }, request);
     }
 }
