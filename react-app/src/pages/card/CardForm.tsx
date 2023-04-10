@@ -36,12 +36,18 @@ const CardForm = () => {
 
     const submitHandler = (e: React.FormEvent) => {
         e.preventDefault()
-        const body: CardInformation = {
-            cardNumber,
-            cvc,
-            expiryDate
+        cardNumberBlur()
+        cvcBlur()
+        expiryDateBlur()
+        if (cardNumber && cvc && expiryDate && !cardNumberError && !cvcError && !expiryDateError) {
+            const body: CardInformation = {
+                cardNumber,
+                cvc,
+                expiryDate
+            }
+            registerCard(body)
         }
-        registerCard(body)
+        else console.log('Please check required fields before submitting')
     }
 
     return (
