@@ -1,9 +1,29 @@
 import { Button, Grid, TextField } from "@mui/material"
+import { useState } from "react"
 import { PatternFormat } from "react-number-format"
+import { CardInformation } from "../../model"
 
 const CardForm = () => {
+    const [cardNumber, setCardNumber] = useState<string>('')
+    const [cvc, setCvc] = useState<string>('')
+    const [expiryDate, setExpiryDate] = useState<string>('')
+    
+    const registerCard = (body: CardInformation) => {
+        console.log(body)
+    }
+
+    const submitHandler = (e: React.FormEvent) => {
+        e.preventDefault()
+        const body: CardInformation = {
+            cardNumber,
+            cvc,
+            expiryDate
+        }
+        registerCard(body)
+    }
+
     return (
-        <form>
+        <form onSubmit={submitHandler}>
             <Grid container direction='column' spacing={3}>
                 <Grid item>
                     <PatternFormat
@@ -13,6 +33,10 @@ const CardForm = () => {
                         label='Card Number'
                         type='text'
                         placeholder='1234 1234 1234 1234'
+                        value={cardNumber}
+                        onValueChange={({ value }) => {
+                            setCardNumber(value)
+                        }}
                         required
                         autoFocus
                         fullWidth
@@ -29,6 +53,10 @@ const CardForm = () => {
                             label='CVC'
                             type='text'
                             placeholder='123'
+                            value={cvc}
+                            onValueChange={({ value }) => {
+                                setCvc(value)
+                            }}
                             required
                             valueIsNumericString
                         />
@@ -42,6 +70,10 @@ const CardForm = () => {
                             label='Expiry Date'
                             type='text'
                             placeholder='MM/YY'
+                            value={expiryDate}
+                            onValueChange={({ value }) => {
+                                setExpiryDate(value)
+                            }}
                             required
                             valueIsNumericString
                         />
