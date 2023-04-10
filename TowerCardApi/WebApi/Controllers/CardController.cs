@@ -27,6 +27,8 @@ public class CardController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType(typeof(CardEntity[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetAllCards()
     {
         return Ok(_cardService.GetAll());
@@ -38,6 +40,9 @@ public class CardController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(CardEntity), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetCard(Guid id)
     {
         return Ok(_cardService.Get(id));
@@ -48,7 +53,22 @@ public class CardController : ControllerBase
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
+    /// <remarks>
+    /// Sample request:
+    ///      ExpiryDate should be in "MMyy"
+    ///      
+    ///     {
+    ///         "Name": "Jane Doh",
+    ///         "CardNumber": "1234123412341234",
+    ///         "Cvc": "123",
+    ///         "ExpiryDate": "0225" 
+    ///     }
+    ///
+    /// </remarks>
     [HttpPost]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> SaveCard([FromBody] CardInformation request)
     {
         var result = await _validator.ValidateAsync(request);
