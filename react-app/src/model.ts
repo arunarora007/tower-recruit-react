@@ -3,3 +3,8 @@ export type CardInformation ={
     cvc: string
     expiryDate: string
 }
+
+export type User = {
+    firstName: String
+    lastName: String
+}

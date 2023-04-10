@@ -1,9 +1,14 @@
 import {Typography} from '@mui/material'
+import  {User} from '../../model'
 
-const WelcomeText = () =>{
+type WelcomeTextProps = {
+    user: User
+}
+
+const WelcomeText = ({user}: WelcomeTextProps) =>{
     return (
         <Typography variant='h4'>
-        Welcome Arun     
+        Welcome {user.firstName}        
         </Typography>
     )
 }

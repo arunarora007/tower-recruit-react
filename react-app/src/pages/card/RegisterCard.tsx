@@ -1,12 +1,18 @@
 import WelcomeText from './WelcomeText'
 import CardForm from './CardForm'
-import { Box} from '@mui/material'
+import { Box } from '@mui/material'
+import { User } from '../../model'
 
-const RegisterCard = () =>{
+const user: User = {
+    firstName: 'Arun',
+    lastName: 'Arora'
+}
+
+const RegisterCard = () => {
     return (
         <div>
             <Box m={4}></Box>
-            <WelcomeText/>
+            <WelcomeText user={user} />
             <Box m={4}></Box>
             <CardForm />
         </div>
