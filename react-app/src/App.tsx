@@ -1,10 +1,10 @@
 import './App.css';
-import CardForm from './pages/card/CardForm';
+import RegisterCard from './pages/card/RegisterCard';
 
 function App() {
   return (
     <div className="App">
-      <CardForm/>
+      <RegisterCard/>
     </div>
   );
 }
