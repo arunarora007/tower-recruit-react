@@ -10,7 +10,7 @@ const user: User = {
 
 const RegisterCard = () => {
     return (
-        <div>
+        <div className='registerCard'>
             <Box m={4}></Box>
             <WelcomeText user={user} />
             <Box m={4}></Box>

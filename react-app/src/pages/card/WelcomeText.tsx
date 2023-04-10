@@ -7,7 +7,7 @@ type WelcomeTextProps = {
 
 const WelcomeText = ({user}: WelcomeTextProps) =>{
     return (
-        <Typography variant='h4'>
+        <Typography className='WelcomeText' variant='h4'>
         Welcome {user.firstName}        
         </Typography>
     )

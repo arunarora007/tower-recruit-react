@@ -51,7 +51,7 @@ const CardForm = () => {
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form className="cardForm" onSubmit={submitHandler}>
             <Grid container direction='column' spacing={3}>
                 <Grid item>
                     <PatternFormat
